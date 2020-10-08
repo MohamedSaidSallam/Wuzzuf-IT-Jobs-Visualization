@@ -1,5 +1,9 @@
 import requests
 import lxml.html
+import json
+from pathlib import Path
+
+OUTPUT_FOLDER = "output"
 
 JOB_URL = "https://wuzzuf.net/jobs/p/310929-Game-Designer-Cairo-Egypt?l=sp&t=sj&a=search-v3%7Cspbg&o=38"
 
@@ -38,4 +42,8 @@ jobJson["About The Job"] = '\n'.join([str(role.text_content()).strip() for role 
 jobJson["Job Requirements"] =  '\n'.join([str(role.text_content()).strip() for role in tree.xpath('/html/body/div[4]/div/div[1]/div[3]/span/ul/li')])
 jobJson["Keywords"] = [str(role.text_content()).strip() for role in tree.xpath('/html/body/div[4]/div/div[1]/div[3]/div[2]/div/div')]
 
-print(jobJson)
+
+Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
+
+with open(f"{OUTPUT_FOLDER}/job.json", "w") as outputFile:
+    json.dump(jobJson, outputFile)
