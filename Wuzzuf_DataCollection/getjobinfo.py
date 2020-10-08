@@ -1,11 +1,8 @@
 import lxml.html
 import requests
 
-JOB_URL = "https://wuzzuf.net/jobs/p/310929-Game-Designer-Cairo-Egypt?l=sp&t=sj&a=search-v3%7Cspbg&o=38"
-
-
-def getJobInfo():
-    jobResponse = requests.get(JOB_URL, stream=True)
+def getJobInfo(link):
+    jobResponse = requests.get(link, stream=True)
     jobResponse.raise_for_status()
     jobResponse.raw.decode_content = True
 
