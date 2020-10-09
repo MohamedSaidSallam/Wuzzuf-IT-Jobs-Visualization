@@ -1,5 +1,9 @@
+import traceback
+
 import lxml.html
 import requests
+
+from Wuzzuf_DataCollection.logger import logger
 
 
 def getJobInfo(link):
@@ -11,6 +15,7 @@ def getJobInfo(link):
 
     jobJson = {}
 
+    logger.debug(f"Getting info for {link}")
     try:
         jobJson["title"] = str(tree.xpath(
             '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/h1')[0].text_content()).strip()
@@ -47,7 +52,7 @@ def getJobInfo(link):
         jobJson["Keywords"] = [str(role.text_content()).strip() for role in tree.xpath(
             '/html/body/div[4]/div/div[1]/div[3]/div[2]/div/div')]
 
-    except Exception as e:
-        print("Failed: link (", link, ") exception (", e.__traceback__, ")")
+    except Exception:
+        logger.error(f"Failed to get Job info: link ({link}), Exception ({traceback.format_exc()})")
 
     return jobJson

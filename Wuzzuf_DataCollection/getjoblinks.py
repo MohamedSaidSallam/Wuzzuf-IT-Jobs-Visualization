@@ -2,6 +2,8 @@ import time
 import lxml.html
 import requests
 
+from Wuzzuf_DataCollection.logger import logger
+
 JOBS_LIST_URL = "https://wuzzuf.net/a/IT-Software-Development-Jobs-in-Egypt?start={start}"
 # this is not an option, it's the increment for the start value in the url
 RESAULTS_PER_PAGE = 20
@@ -16,16 +18,21 @@ def getJobLinks():
 
     limit = int(str(tree.xpath(
         '//*[@id="search-results-container"]/div/p')[0].text_content()).split()[0])
+    logger.debug(f"# of jobs = {limit}")
 
-    for i in range(int(limit / RESAULTS_PER_PAGE) + 1):
-        print('loop ', i)
+
+    numberOfLoops = int(limit / RESAULTS_PER_PAGE) + 1
+
+    logger.debug(f"Looping for {numberOfLoops}")
+    for i in range(numberOfLoops):
+        logger.debug(f"Loop {i}/{numberOfLoops}")
         tree = getPageTree(JOBS_LIST_URL.format(
             start=i * RESAULTS_PER_PAGE))
 
         for result in tree.xpath('//*[@id="search-results-container"]/div')[0].cssselect("h2"):
             links.append(result.getchildren()[0].attrib["href"])
 
-        print('sleeping')
+        logger.debug(f"Going to sleep")
         time.sleep(TIME_BETWEEN_REQUESTS)
 
     return links
