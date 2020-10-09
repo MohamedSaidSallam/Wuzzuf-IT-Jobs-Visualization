@@ -22,8 +22,13 @@ def getJobInfo(link):
         jobJson["Company"] = str(tree.xpath(
             '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[1]/span[1]')[0].text_content()).strip()
         if jobJson["Company"] == "":
-            jobJson["Company"] = str(tree.xpath(
-                '/html/body/div[4]/div/div[1]/div[1]/div[1]/div[2]/p[1]/span[1]/a')[0].text_content()).strip()
+            companyElementList = tree.xpath(
+                '/html/body/div[4]/div/div[1]/div[1]/div[1]/div[2]/p[1]/span[1]/a')
+            if len(companyElementList) == 0:
+                companyElementList = tree.xpath(
+                    '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[1]/a')
+            jobJson["Company"] = str(
+                companyElementList[0].text_content()).strip()
         jobJson["City"] = str(tree.xpath('/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[1]')[0].text_content()).strip() \
             + str(tree.xpath(
                 '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[2]')[0].text_content()).strip()
@@ -53,6 +58,7 @@ def getJobInfo(link):
             '/html/body/div[4]/div/div[1]/div[3]/div[2]/div/div')]
 
     except Exception:
-        logger.error(f"Failed to get Job info: link ({link}), Exception ({traceback.format_exc()})")
+        logger.error(
+            f"Failed to get Job info: link ({link}), Exception ({traceback.format_exc()})")
 
     return jobJson
