@@ -16,6 +16,9 @@ def getJobInfo(link):
             '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/h1')[0].text_content()).strip()
         jobJson["Company"] = str(tree.xpath(
             '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[1]/span[1]')[0].text_content()).strip()
+        if jobJson["Company"] == "":
+            jobJson["Company"] = str(tree.xpath(
+                '/html/body/div[4]/div/div[1]/div[1]/div[1]/div[2]/p[1]/span[1]/a')[0].text_content()).strip()
         jobJson["City"] = str(tree.xpath('/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[1]')[0].text_content()).strip() \
             + str(tree.xpath(
                 '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[2]')[0].text_content()).strip()
