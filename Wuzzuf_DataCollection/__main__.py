@@ -7,14 +7,14 @@ from Wuzzuf_DataCollection.getjobinfo import getJobInfo
 from Wuzzuf_DataCollection.getjoblinks import getJobLinks
 from Wuzzuf_DataCollection.logger import logger
 
-OUTPUT_FOLDER = "output"
-OUTPUT_LINKS_FILE = f"{OUTPUT_FOLDER}/links.json"
+JOBS_OUTPUT_FOLDER = "output/jobs"
+OUTPUT_LINKS_FILE = f"{JOBS_OUTPUT_FOLDER}/links.json"
 TIME_BETWEEN_REQUESTS = 2.5
 
 logger.debug("Started")
 
-logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
-Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
+logger.debug(f"create output folder if not present @ {JOBS_OUTPUT_FOLDER}")
+Path(JOBS_OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 
 if os.path.isfile(OUTPUT_LINKS_FILE):
     logger.debug(f"{OUTPUT_LINKS_FILE} found")
@@ -30,15 +30,15 @@ else:
 
 
 logger.debug(f"going t {OUTPUT_LINKS_FILE}")
-for i, link in enumerate(jobLinks):
+for i, link in enumerate(jobLinks[1208:]):
     logger.debug(f"Getting Info for Job # {i+1}/{len(jobLinks)}")
     jobInfo = getJobInfo(link)
 
     logger.debug(f"Going to sleep")
     time.sleep(TIME_BETWEEN_REQUESTS)
 
-    logger.debug(f"Writing File to {OUTPUT_FOLDER}/{i}.json")
-    with open(f"{OUTPUT_FOLDER}/{i}.json", "w") as outputFile:
+    logger.debug(f"Writing File to {JOBS_OUTPUT_FOLDER}/{i}.json")
+    with open(f"{JOBS_OUTPUT_FOLDER}/{i}.json", "w") as outputFile:
         json.dump(jobInfo, outputFile)
 
 logger.debug(f"DONE!")
