@@ -31,7 +31,7 @@ else:
 
 logger.debug(f"going t {OUTPUT_LINKS_FILE}")
 for i, link in enumerate(jobLinks):
-    logger.debug(f"Getting Info for Job # {i+1}/{len(jobLinks)}")
+    logger.debug(f"Getting Info for Job # {i}/{len(jobLinks)}")
     jobInfo = getJobInfo(link)
 
     logger.debug(f"Going to sleep")
