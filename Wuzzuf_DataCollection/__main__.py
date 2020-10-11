@@ -7,12 +7,15 @@ from Wuzzuf_DataCollection.getjobinfo import getJobInfo
 from Wuzzuf_DataCollection.getjoblinks import getJobLinks
 from Wuzzuf_DataCollection.logger import logger
 
-JOBS_OUTPUT_FOLDER = "output/jobs"
-OUTPUT_LINKS_FILE = f"{JOBS_OUTPUT_FOLDER}/links.json"
+OUTPUT_FOLDER = "output"
+JOBS_OUTPUT_FOLDER = f"{OUTPUT_FOLDER}/jobs"
+OUTPUT_LINKS_FILE = f"{OUTPUT_FOLDER}/links.json"
 TIME_BETWEEN_REQUESTS = 2.5
 
 logger.debug("Started")
 
+logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
+Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 logger.debug(f"create output folder if not present @ {JOBS_OUTPUT_FOLDER}")
 Path(JOBS_OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 
