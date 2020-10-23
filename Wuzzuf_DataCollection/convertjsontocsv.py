@@ -39,7 +39,7 @@ def makeKeywordsCSV():
                         jobData = json.load(job)
                         for keyword in jobData["Keywords"]:
                             csvWriter.writerow(
-                                [f"{jobData['title'] + jobData['Company']}", keyword])
+                                [f"{jobData['title'] + jobData['Company']}", keyword.lower()])
 
 
 def makeJobrolesCSV():
