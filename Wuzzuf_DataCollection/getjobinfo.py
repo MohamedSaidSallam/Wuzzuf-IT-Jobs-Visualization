@@ -16,6 +16,7 @@ def getJobInfo(link):
     jobJson = {}
 
     logger.debug(f"Getting info for {link}")
+    jobJson["link"] = link
     try:
         jobJson["title"] = str(tree.xpath(
             '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/h1')[0].text_content()).strip()
