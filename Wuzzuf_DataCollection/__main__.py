@@ -121,7 +121,7 @@ parser.add_argument("-f", "--skip-get-jobs-info",
 
 args = parser.parse_args()
 
-if args.start_index >= args.end_index:
+if args.end_index != -1 and args.start_index >= args.end_index:
     logger.critical(
         "end index ({args.end_index}) is smaller than or equal start index ({args.start_index})")
     exit(-1)
