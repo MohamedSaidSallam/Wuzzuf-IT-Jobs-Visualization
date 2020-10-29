@@ -19,7 +19,7 @@ def formattedJsonDumps(data, file):
     json.dump(data, file, indent=4, sort_keys=True)
 
 
-def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, getJobInfo):
+def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV, skipGetJobInfo):
     logger.debug("Started")
 
     logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
@@ -44,7 +44,7 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, get
         with open(OUTPUT_LINKS_FILE, "w") as outputFile:
             formattedJsonDumps(jobLinks, outputFile)
 
-    if getJobInfo:
+    if skipGetJobInfo:
         if linksEndIndex == -1:
             linksEndIndex = len(jobLinks)
 
@@ -63,7 +63,7 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, get
     else:
         logger.debug(f"creating job info JSON was disabled by command args")
 
-    if createCSV:
+    if skipCreateCSV:
         logger.debug(f"creating CSVs")
         createCSVs()
     else:
@@ -126,6 +126,6 @@ main(
     use_existing_Links_file=args.use_existing_Links_file,
     linksStartIndex=args.start_index,
     linksEndIndex=args.end_index,
-    createCSV=not args.skip_create_csv,
-    getJobInfo=not args.skip_get_jobs_info,
+    skipCreateCSV=not args.skip_create_csv,
+    skipGetJobInfo=not args.skip_get_jobs_info,
 )
