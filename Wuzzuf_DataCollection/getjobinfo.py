@@ -2,6 +2,7 @@ import traceback
 
 import lxml.html
 import requests
+from lxml.etree import tostring
 
 from Wuzzuf_DataCollection.logger import logger
 
@@ -18,45 +19,32 @@ def getJobInfo(link):
     logger.debug(f"Getting info for {link}")
     jobJson["link"] = link
     try:
-        jobJson["title"] = str(tree.xpath(
-            '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/h1')[0].text_content()).strip()
-        jobJson["Company"] = str(tree.xpath(
-            '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[1]/span[1]')[0].text_content()).strip()
-        if jobJson["Company"] == "":
-            companyElementList = tree.xpath(
-                '/html/body/div[4]/div/div[1]/div[1]/div[1]/div[2]/p[1]/span[1]/a')
-            if len(companyElementList) == 0:
-                companyElementList = tree.xpath(
-                    '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[1]/a')
-            jobJson["Company"] = str(
-                companyElementList[0].text_content()).strip()
-        jobJson["City"] = str(tree.xpath('/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[1]')[0].text_content()).strip() \
-            + str(tree.xpath(
-                '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[1]/span[2]/span/span[2]')[0].text_content()).strip()
+        jobJson["title"] = ''.join(tree.xpath(
+            '//h1[@class="job-title"]/text()')).strip()
+        jobJson["Company"] = tree.xpath(
+            '//a[@class="job-company-name"]/text()')[0]
+        jobJson["City"] = ''.join([span.text_content() for span in tree.xpath(
+            '//span[@class="job-company-location"]')[0]]).strip()
         jobJson["Posted Date"] = tree.xpath(
-            '/html/body/div[4]/div/div[1]/div[1]/div[1]/div/p[2]/time')[0].attrib["datetime"]
+            '//p[@class="job-post-date"]')[0].getchildren()[0].attrib["datetime"]
 
-        for row in tree.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/table')[0].getchildren():
-            for field in row.getchildren():
-                innerDL = field.getchildren()[0].getchildren()
-                firstIndex = 0
-                secondIndex = 1
-                if len(innerDL) == 3:
-                    firstIndex = 1
-                    secondIndex = 2
-                fieldName = innerDL[firstIndex].text_content().strip()
-                fieldValue = " ".join(
-                    innerDL[secondIndex].text_content().split())
-                jobJson[fieldName] = fieldValue
+        for field in tree.xpath('//table[@class="table"]/tr/td/dl'):
+            fieldTitle = field.xpath('.//dt/text()')[0].strip()[:-1]
+            fieldValue = field.xpath('.//dd')[0]
+            if len((children := fieldValue.getchildren())) == 1:
+                jobJson[fieldTitle] = children[0].text_content().strip()
+            else:
+                jobJson[fieldTitle] = ' '.join(
+                    fieldValue.text_content().split()).strip()
 
-        jobJson["Job Roles"] = [str(role.text_content()).strip() for role in tree.xpath(
-            '/html/body/div[4]/div/div[1]/div[2]/div[2]/div/div')]
-        jobJson["About The Job"] = '\n'.join([str(role.text_content()).strip(
-        ) for role in tree.xpath('/html/body/div[4]/div/div[1]/div[2]/span/ul[1]/li')])
-        jobJson["Job Requirements"] = '\n'.join([str(role.text_content()).strip(
-        ) for role in tree.xpath('/html/body/div[4]/div/div[1]/div[3]/span/ul/li')])
-        jobJson["Keywords"] = [str(role.text_content()).strip() for role in tree.xpath(
-            '/html/body/div[4]/div/div[1]/div[3]/div[2]/div/div')]
+        jobJson["Job Roles"] = [item.strip() for item in tree.xpath(
+            '//div[@class="about-job content-card"]')[0].xpath('.//div[@class="keyword-matching-labels"]/a/text()')]
+        jobJson["About The Job"] = tostring(tree.xpath(
+            '//span[@itemprop="description"]')[0]).decode("utf-8")
+        jobJson["Job Requirements"] = tostring(tree.xpath(
+            '//span[@itemprop="responsibilities"]')[0]).decode("utf-8")
+        jobJson["Keywords"] = [item.strip() for item in tree.xpath(
+            '//div[@class="job-requirements content-card"]')[0].xpath('.//div[@class="keyword-matching-labels"]/a/text()')]
 
     except Exception:
         logger.error(
