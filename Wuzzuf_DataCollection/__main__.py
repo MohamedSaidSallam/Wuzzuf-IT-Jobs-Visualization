@@ -57,8 +57,8 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
             logger.debug(f"Going to sleep")
             time.sleep(TIME_BETWEEN_REQUESTS)
 
-            logger.debug(f"Writing File to {JOBS_OUTPUT_FOLDER}/{i}.json")
-            with open(f"{JOBS_OUTPUT_FOLDER}/{i}.json", "w") as outputFile:
+            logger.debug(f"Writing File to {JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json")
+            with open(f"{JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json", "w") as outputFile:
                 formattedJsonDumps(jobInfo, outputFile)
     else:
         logger.debug(f"creating job info JSON was disabled by command args")
