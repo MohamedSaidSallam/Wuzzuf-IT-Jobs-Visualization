@@ -1,0 +1,8 @@
+version: '3'
+services:
+    wuzzufdatacollection:
+        container_name: Wuzzuf_DataCollection
+        build: .
+        volumes:
+            - ./output:/usr/src/app/output
+            - ./logs:/usr/src/app/logs
