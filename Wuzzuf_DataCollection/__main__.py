@@ -93,13 +93,13 @@ def positiveInt(string):
 
 
 parser.add_argument("-i", "--start-index",
-                    help="Start index in links JSON to start getting job info (default: %(default)s)",
+                    help="Start index in links JSON to start getting job info (Inclusive, default: %(default)s)",
                     default=0,
                     type=positiveInt,
                     action="store")
 
 parser.add_argument("-e", "--end-index",
-                    help="Start index in links JSON to start getting job info",
+                    help="Start index in links JSON to start getting job info (Exclusive)",
                     default=-1,
                     type=positiveInt,
                     action="store")
