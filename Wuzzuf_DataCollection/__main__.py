@@ -48,6 +48,11 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
         if linksEndIndex == -1:
             linksEndIndex = len(jobLinks)
 
+        if linksStartIndex > len(jobLinks) or linksEndIndex > len(jobLinks):
+            logger.critical(
+                f"Invalid job index linksStartIndex: {linksStartIndex}, linksEndIndex: {linksEndIndex}, length of job links: {len(jobLinks)}")
+            exit(-1)
+
         logger.debug(
             f"going through links list from {linksStartIndex} to {linksEndIndex}")
         for i, link in enumerate(jobLinks[linksStartIndex:linksEndIndex]):
