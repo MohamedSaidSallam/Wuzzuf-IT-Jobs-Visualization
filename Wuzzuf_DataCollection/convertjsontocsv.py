@@ -56,7 +56,7 @@ def makeJobrolesCSV():
                                 [f"{jobData['title'] + jobData['Company']}", jobRole])
 
 
-# def makeAllCSVs():
-makeJobsCSV()
-makeKeywordsCSV()
-makeJobrolesCSV()
+def createCSVs():
+    makeJobsCSV()
+    makeKeywordsCSV()
+    makeJobrolesCSV()

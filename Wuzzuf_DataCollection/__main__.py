@@ -4,6 +4,7 @@ import os.path
 import time
 from pathlib import Path
 
+from Wuzzuf_DataCollection.convertjsontocsv import createCSVs
 from Wuzzuf_DataCollection.getjobinfo import getJobInfo
 from Wuzzuf_DataCollection.getjoblinks import getJobLinks
 from Wuzzuf_DataCollection.logger import logger
@@ -63,7 +64,8 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, get
         logger.debug(f"creating job info JSON was disabled by command args")
 
     if createCSV:
-        pass
+        logger.debug(f"creating CSVs")
+        createCSVs()
     else:
         logger.debug(f"creating CSV was disabled by command args")
 
