@@ -19,7 +19,7 @@ logger.debug("Started")
 
 logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
 Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
-logger.debug(f"create output folder if not present @ {JOBS_OUTPUT_FOLDER}")
+logger.debug(f"create jobs output folder if not present @ {JOBS_OUTPUT_FOLDER}")
 Path(JOBS_OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
 
 if os.path.isfile(OUTPUT_LINKS_FILE):
