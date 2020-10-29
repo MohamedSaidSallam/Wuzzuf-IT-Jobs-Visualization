@@ -1,6 +1,6 @@
 import logging
 
-FILE_PATH_LOG = "main.log"
+FILE_PATH_LOG = "logs/main.log"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
