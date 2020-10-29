@@ -7,7 +7,7 @@ from lxml.etree import tostring
 from Wuzzuf_DataCollection.logger import logger
 
 
-def getJobInfo(link):
+def getJobInfo(link, isRetry=False):
     jobResponse = requests.get(link, stream=True)
     jobResponse.raise_for_status()
     jobResponse.raw.decode_content = True
@@ -49,5 +49,10 @@ def getJobInfo(link):
     except Exception:
         logger.error(
             f"Failed to get Job info: link ({link}), Exception ({traceback.format_exc()})")
+        if isRetry:
+            logger.error(f"Retry Failed; skipping job ({link})")
+        else:
+            logger.debug(f"Retrying")
+            jobJson=getJobInfo(link, True)
 
     return jobJson
