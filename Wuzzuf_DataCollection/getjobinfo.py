@@ -1,4 +1,5 @@
 import traceback
+from time import sleep
 
 import lxml.html
 import requests
@@ -6,6 +7,7 @@ from lxml.etree import tostring
 
 from Wuzzuf_DataCollection.logger import logger
 
+RETRY_SLEEP_TIME = 3
 
 def getJobInfo(link, isRetry=False):
     jobResponse = requests.get(link, stream=True)
@@ -52,7 +54,8 @@ def getJobInfo(link, isRetry=False):
         if isRetry:
             logger.error(f"Retry Failed; skipping job ({link})")
         else:
-            logger.debug(f"Retrying")
+            logger.debug(f"Retrying after sleeping for {RETRY_SLEEP_TIME}s")
+            sleep(RETRY_SLEEP_TIME)
             jobJson=getJobInfo(link, True)
 
     return jobJson
