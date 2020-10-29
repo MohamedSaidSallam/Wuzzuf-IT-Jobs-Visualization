@@ -22,7 +22,7 @@ def getJobInfo(link):
         jobJson["title"] = ''.join(tree.xpath(
             '//h1[@class="job-title"]/text()')).strip()
         jobJson["Company"] = tree.xpath(
-            '//a[@class="job-company-name"]/text()')[0]
+            '//*[@class="job-company-name"]/text()')[0]
         jobJson["City"] = ''.join([span.text_content() for span in tree.xpath(
             '//span[@class="job-company-location"]')[0]]).strip()
         jobJson["Posted Date"] = tree.xpath(
@@ -41,8 +41,8 @@ def getJobInfo(link):
             '//div[@class="about-job content-card"]')[0].xpath('.//div[@class="keyword-matching-labels"]/a/text()')]
         jobJson["About The Job"] = tostring(tree.xpath(
             '//span[@itemprop="description"]')[0]).decode("utf-8")
-        jobJson["Job Requirements"] = tostring(tree.xpath(
-            '//span[@itemprop="responsibilities"]')[0]).decode("utf-8")
+        jobJson["Job Requirements"] = tostring(jobreq[0]).decode(
+            "utf-8") if len((jobreq := tree.xpath('//span[@itemprop="responsibilities"]'))) != 0 else ""
         jobJson["Keywords"] = [item.strip() for item in tree.xpath(
             '//div[@class="job-requirements content-card"]')[0].xpath('.//div[@class="keyword-matching-labels"]/a/text()')]
 
