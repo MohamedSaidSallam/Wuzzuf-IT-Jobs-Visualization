@@ -51,7 +51,7 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
         logger.debug(
             f"going through links list from {linksStartIndex} to {linksEndIndex}")
         for i, link in enumerate(jobLinks[linksStartIndex:linksEndIndex]):
-            logger.debug(f"Getting Info for Job # {i}/{len(jobLinks)}")
+            logger.debug(f"Getting Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
             jobInfo = getJobInfo(link)
 
             logger.debug(f"Going to sleep")
