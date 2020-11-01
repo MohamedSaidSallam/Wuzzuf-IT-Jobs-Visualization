@@ -59,13 +59,15 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, get
         logger.debug(
             f"going through links list from {linksStartIndex} to {linksEndIndex}")
         for i, link in enumerate(jobLinks[linksStartIndex:linksEndIndex]):
-            logger.debug(f"Getting Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
+            logger.debug(
+                f"Getting Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
             jobInfo = getJobInfo(link)
 
             logger.debug(f"Going to sleep")
             time.sleep(TIME_BETWEEN_REQUESTS)
 
-            logger.debug(f"Writing File to {JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json")
+            logger.debug(
+                f"Writing File to {JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json")
             with open(f"{JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json", "w") as outputFile:
                 formattedJsonDumps(jobInfo, outputFile)
     else:
@@ -82,15 +84,16 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, get
     else:
         logger.debug("archiving output")
 
-        outputArchiveName= f"{datetime.today().strftime('%Y-%m-%d')}.zip"
+        outputArchiveName = f"{datetime.today().strftime('%Y-%m-%d')}.zip"
 
-        with zipfile.ZipFile( OUTPUT_FOLDER +'/'+ outputArchiveName, 'w', zipfile.ZIP_DEFLATED) as outputZip:
+        with zipfile.ZipFile(OUTPUT_FOLDER + '/' + outputArchiveName, 'w', zipfile.ZIP_DEFLATED) as outputZip:
             for root, _, files in os.walk(OUTPUT_FOLDER):
                 for file in files:
                     fileExtension = os.path.splitext(file)[1][1:]
                     if fileExtension == 'csv' or fileExtension == 'json':
                         fileToArchive = os.path.join(root, file)
-                        outputZip.write(fileToArchive, arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
+                        outputZip.write(fileToArchive, arcname=os.path.join(
+                            root[len(OUTPUT_FOLDER):], file))
                         os.remove(fileToArchive)
 
         logger.debug(f"output archived to {outputArchiveName}")
