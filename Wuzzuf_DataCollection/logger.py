@@ -1,6 +1,7 @@
 import logging
+from datetime import datetime
 
-FILE_PATH_LOG = "logs/main.log"
+FILE_PATH_LOG = f"logs/main-{datetime.today().strftime('%Y-%m-%d')}.log"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
