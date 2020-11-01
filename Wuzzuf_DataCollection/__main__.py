@@ -22,7 +22,7 @@ def formattedJsonDumps(data, file):
     json.dump(data, file, indent=4, sort_keys=True)
 
 
-def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV, skipGetJobInfo, skipArchive):
+def main(use_existing_Links_file, linksStartIndex, linksEndIndex, createCSV, getJobInfo, skipArchive):
     logger.debug("Started")
 
     logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
@@ -47,7 +47,7 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
         with open(OUTPUT_LINKS_FILE, "w") as outputFile:
             formattedJsonDumps(jobLinks, outputFile)
 
-    if skipGetJobInfo:
+    if getJobInfo:
         if linksEndIndex == -1:
             linksEndIndex = len(jobLinks)
 
@@ -71,7 +71,7 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
     else:
         logger.debug(f"creating job info JSON was disabled by command args")
 
-    if skipCreateCSV:
+    if createCSV:
         logger.debug(f"creating CSVs")
         createCSVs()
     else:
@@ -131,12 +131,12 @@ parser.add_argument("-e", "--end-index",
                     action="store")
 
 parser.add_argument("-c", "--skip-create-csv",
-                    help="Create CSV files combining data from Job JSONs (default: %(default)s)",
+                    help="skip creating CSV files combining data from Job JSONs (default: %(default)s)",
                     default=False,
                     action="store_true")
 
 parser.add_argument("-f", "--skip-get-jobs-info",
-                    help="Create JSON files for each job (or jobs within the start and end index if specified) in links JSON file (default: %(default)s)",
+                    help="skip creating JSON files for each job (or jobs within the start and end index if specified) in links JSON file (default: %(default)s)",
                     default=False,
                     action="store_true")
 
@@ -157,7 +157,7 @@ main(
     use_existing_Links_file=args.use_existing_Links_file,
     linksStartIndex=args.start_index,
     linksEndIndex=args.end_index,
-    skipCreateCSV=not args.skip_create_csv,
-    skipGetJobInfo=not args.skip_get_jobs_info,
+    createCSV=not args.skip_create_csv,
+    getJobInfo=not args.skip_get_jobs_info,
     skipArchive=args.skip_archive,
 )
