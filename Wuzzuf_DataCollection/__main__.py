@@ -1,7 +1,10 @@
 import argparse
 import json
+import os
 import os.path
 import time
+import zipfile
+from datetime import datetime
 from pathlib import Path
 
 from Wuzzuf_DataCollection.convertjsontocsv import createCSVs
@@ -74,7 +77,20 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
     else:
         logger.debug(f"creating CSV was disabled by command args")
 
-    logger.debug(f"DONE!!")
+    logger.debug("archiving output")
+
+    outputArchiveName= f"{datetime.today().strftime('%Y-%m-%d')}.zip"
+
+    with zipfile.ZipFile( OUTPUT_FOLDER +'/'+ outputArchiveName, 'w', zipfile.ZIP_DEFLATED) as outputZip:
+        for root, _, files in os.walk(OUTPUT_FOLDER):
+            for file in files:
+                fileExtension = os.path.splitext(file)[1][1:]
+                if fileExtension == 'csv' or fileExtension == 'json':
+                    outputZip.write(os.path.join(root, file), arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
+
+    logger.debug(f"output archived to {outputArchiveName}")
+
+    logger.debug("DONE!!")
 
 
 parser = argparse.ArgumentParser(
