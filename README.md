@@ -44,11 +44,12 @@ py -m Wuzzuf_DataCollection
 There are also command args available which you can view with:
 
 ```bash
-py -m Wuzzuf_DataCollection --help
+$ py -m Wuzzuf_DataCollection --help
 
-usage: __main__.py [-h] [-l] [-i START_INDEX] [-e END_INDEX] [-c] [-f]
+usage: __main__.py [-h] [-l] [-i START_INDEX] [-e END_INDEX] [-c] [-f] [-a]
 
-Gets the list of Job offers on wuzzuf.com for it, gets the details of each offer then generates a CSV file with all the jobs Warning: the output file is overwritten with each run!!
+Gets the list of Job offers on wuzzuf.com for it, gets the details of each offer then generates a CSV file with all the jobs and then archives the output to a zip file Warning: the output file is
+overwritten with each run!!
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -59,9 +60,10 @@ optional arguments:
   -e END_INDEX, --end-index END_INDEX
                         Start index in links JSON to start getting job info (Exclusive)
   -c, --skip-create-csv
-                        Create CSV files combining data from Job JSONs (default: False)
+                        skip creating CSV files combining data from Job JSONs (default: False)
   -f, --skip-get-jobs-info
-                        Create JSON files for each job (or jobs within the start and end index if specified) in links JSON file (default: False)
+                        skip creating JSON files for each job (or jobs within the start and end index if specified) in links JSON file (default: False)
+  -a, --skip-archive    Skip creating an archive for the output and deleting the current output (default: False)
 
 https://github.com/TheDigitalPhoenixX/Wuzzuf-IT-Jobs-Visualization
 ```
