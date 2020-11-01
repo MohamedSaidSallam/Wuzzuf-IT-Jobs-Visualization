@@ -11,7 +11,7 @@ def makeJobsCSV():
     with open(f"{OUTPUT_FOLDER}/jobs.csv", "w", newline='', encoding='utf-8') as jobsCSV:
         csvWriter = csv.writer(jobsCSV, delimiter=',', escapechar='"')
         keys=["Key", "title", "Company", "City", "Posted Date", "Experience Needed", "Career Level",
-                            "Job Type", "Salary", "Vacancies", "Career Level", "About The Job", "Job Requirements", "link"]
+                            "Job Type", "Salary", "Vacancies", "About The Job", "Job Requirements", "link"]
         csvWriter.writerow(keys)
         for filename in os.listdir(JOBS_FOLDER):
             if os.path.isfile(os.path.join(JOBS_FOLDER, filename)):
