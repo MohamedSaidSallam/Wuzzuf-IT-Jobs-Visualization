@@ -86,7 +86,9 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
             for file in files:
                 fileExtension = os.path.splitext(file)[1][1:]
                 if fileExtension == 'csv' or fileExtension == 'json':
-                    outputZip.write(os.path.join(root, file), arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
+                    fileToArchive = os.path.join(root, file)
+                    outputZip.write(fileToArchive, arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
+                    os.remove(fileToArchive)
 
     logger.debug(f"output archived to {outputArchiveName}")
 
