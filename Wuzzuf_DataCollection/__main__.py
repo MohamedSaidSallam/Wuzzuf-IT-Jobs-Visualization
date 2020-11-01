@@ -22,7 +22,7 @@ def formattedJsonDumps(data, file):
     json.dump(data, file, indent=4, sort_keys=True)
 
 
-def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV, skipGetJobInfo):
+def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV, skipGetJobInfo, skipArchive):
     logger.debug("Started")
 
     logger.debug(f"create output folder if not present @ {OUTPUT_FOLDER}")
@@ -77,26 +77,29 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, skipCreateCSV,
     else:
         logger.debug(f"creating CSV was disabled by command args")
 
-    logger.debug("archiving output")
+    if skipArchive:
+        logger.debug(f"archiving was disabled by command args")
+    else:
+        logger.debug("archiving output")
 
-    outputArchiveName= f"{datetime.today().strftime('%Y-%m-%d')}.zip"
+        outputArchiveName= f"{datetime.today().strftime('%Y-%m-%d')}.zip"
 
-    with zipfile.ZipFile( OUTPUT_FOLDER +'/'+ outputArchiveName, 'w', zipfile.ZIP_DEFLATED) as outputZip:
-        for root, _, files in os.walk(OUTPUT_FOLDER):
-            for file in files:
-                fileExtension = os.path.splitext(file)[1][1:]
-                if fileExtension == 'csv' or fileExtension == 'json':
-                    fileToArchive = os.path.join(root, file)
-                    outputZip.write(fileToArchive, arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
-                    os.remove(fileToArchive)
+        with zipfile.ZipFile( OUTPUT_FOLDER +'/'+ outputArchiveName, 'w', zipfile.ZIP_DEFLATED) as outputZip:
+            for root, _, files in os.walk(OUTPUT_FOLDER):
+                for file in files:
+                    fileExtension = os.path.splitext(file)[1][1:]
+                    if fileExtension == 'csv' or fileExtension == 'json':
+                        fileToArchive = os.path.join(root, file)
+                        outputZip.write(fileToArchive, arcname=os.path.join(root[len(OUTPUT_FOLDER):], file))
+                        os.remove(fileToArchive)
 
-    logger.debug(f"output archived to {outputArchiveName}")
+        logger.debug(f"output archived to {outputArchiveName}")
 
     logger.debug("DONE!!")
 
 
 parser = argparse.ArgumentParser(
-    description=("Gets the list of Job offers on wuzzuf.com for it, gets the details of each offer then generates a CSV file with all the jobs"
+    description=("Gets the list of Job offers on wuzzuf.com for it, gets the details of each offer then generates a CSV file with all the jobs and then archives the output to a zip file"
                  "\nWarning: the output file is overwritten with each run!!"),
     epilog="https://github.com/TheDigitalPhoenixX/Wuzzuf-IT-Jobs-Visualization"
 )
@@ -137,6 +140,11 @@ parser.add_argument("-f", "--skip-get-jobs-info",
                     default=False,
                     action="store_true")
 
+parser.add_argument("-a", "--skip-archive",
+                    help="Skip creating an archive for the output and deleting the current output (default: %(default)s)",
+                    default=False,
+                    action="store_true")
+
 args = parser.parse_args()
 
 if args.end_index != -1 and args.start_index >= args.end_index:
@@ -151,4 +159,5 @@ main(
     linksEndIndex=args.end_index,
     skipCreateCSV=not args.skip_create_csv,
     skipGetJobInfo=not args.skip_get_jobs_info,
+    skipArchive=args.skip_archive,
 )
