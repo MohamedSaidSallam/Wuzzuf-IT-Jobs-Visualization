@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 from Wuzzuf_DataCollection.convertjsontocsv import createCSVs
-from Wuzzuf_DataCollection.getjobinfo import getJobInfo
+from Wuzzuf_DataCollection.getjobinfo import GetJobInfoFailedException, getJobInfo
 from Wuzzuf_DataCollection.getjoblinks import getJobLinks
 from Wuzzuf_DataCollection.logger import logger
 
@@ -59,17 +59,22 @@ def main(use_existing_Links_file, linksStartIndex, linksEndIndex, isCreateCSVAll
         logger.debug(
             f"going through links list from {linksStartIndex} to {linksEndIndex}")
         for i, link in enumerate(jobLinks[linksStartIndex:linksEndIndex]):
-            logger.debug(
-                f"Getting Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
-            jobInfo = getJobInfo(link)
+            try:
+                logger.debug(
+                    f"Getting Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
+                jobInfo = getJobInfo(link)
 
+
+                logger.debug(
+                    f"Writing File to {JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json")
+                with open(f"{JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json", "w") as outputFile:
+                    formattedJsonDumps(jobInfo, outputFile)
+            except GetJobInfoFailedException:
+                logger.debug(
+                    f"Skipping Info for Job # {i}(real index={linksStartIndex+i})/{linksEndIndex-linksStartIndex}")
             logger.debug(f"Going to sleep")
             time.sleep(TIME_BETWEEN_REQUESTS)
 
-            logger.debug(
-                f"Writing File to {JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json")
-            with open(f"{JOBS_OUTPUT_FOLDER}/{linksStartIndex+i}.json", "w") as outputFile:
-                formattedJsonDumps(jobInfo, outputFile)
     else:
         logger.debug(f"creating job info JSON was disabled by command args")
 

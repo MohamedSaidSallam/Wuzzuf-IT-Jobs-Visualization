@@ -9,6 +9,9 @@ from Wuzzuf_DataCollection.logger import logger
 
 RETRY_SLEEP_TIME = 3
 
+class GetJobInfoFailedException(Exception):
+    pass
+
 def getJobInfo(link, isRetry=False):
     jobResponse = requests.get(link, stream=True)
     jobResponse.raise_for_status()
@@ -53,6 +56,7 @@ def getJobInfo(link, isRetry=False):
             f"Failed to get Job info: link ({link}), Exception ({traceback.format_exc()})")
         if isRetry:
             logger.error(f"Retry Failed; skipping job ({link})")
+            raise GetJobInfoFailedException
         else:
             logger.debug(f"Retrying after sleeping for {RETRY_SLEEP_TIME}s")
             sleep(RETRY_SLEEP_TIME)
