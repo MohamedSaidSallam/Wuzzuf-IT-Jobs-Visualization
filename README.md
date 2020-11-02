@@ -21,6 +21,8 @@ You can view the whole visualization on [Tableau public](https://public.tableau.
 
 You can download previously collected data from this [drive][data-drive]. It should be updated every month (or a couple of month) so check back from time to time.
 
+Side Note: if you are going to combine multiple zip files keep in mind that there might be an overlap because a job offer might have lasted for longer than a month.
+
 ## Installation
 
 Don't forget to install the required modules. (unless ofcourse you are going to use docker)
