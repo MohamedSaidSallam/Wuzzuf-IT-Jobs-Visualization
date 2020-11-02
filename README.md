@@ -23,7 +23,7 @@ You can download previously collected data from this [drive][data-drive]. It sho
 
 ## Installation
 
-Don't forget to install the required modules.
+Don't forget to install the required modules. (unless ofcourse you are going to use docker)
 
 ```bash
 pip install -r requirements.txt
@@ -70,9 +70,19 @@ https://github.com/TheDigitalPhoenixX/Wuzzuf-IT-Jobs-Visualization
 
 ### Using docker
 
+A docker file and a docker compose are present in the repo. So you can easly start the script using:
+
 ```bash
 docker-compose up
 ```
+
+## Deployement
+
+If you are going to deploy the script to run periodicly. (Another reminder that you can download the data in the [Download Data](#download-data) Section) Use the following line to add it to the cron tab. Change the parameters to match your machine.
+
+```bash
+(crontab -l 2>/dev/null; echo "0 0 1 * * cd /home/ec2-user/Wuzzuf-IT-Jobs-Visualization && docker-compose up") | crontab -
+ ```
 
 ## Built With
 
