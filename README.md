@@ -11,11 +11,12 @@ Data Collection and visualization for jobs offered under the IT section on [Wuzz
 
 You can view the whole visualization on [Tableau public](https://public.tableau.com/views/WuzzufITOffersVisualization/MainDashboard?:language=en&:display_count=y&:origin=viz_share_link)
 
+If there's a mistake in the filtering in the Visualization or any other feedback please contact me.
+
+### Snippets
+
 ![Visualization Screenshot](doc/Viz_1.png)
 ![Visualization Screenshot](doc/Viz_2.png)
-![Visualization Screenshot](doc/Viz_3.png)
-![Visualization Screenshot](doc/Viz_4.png)
-![Visualization Screenshot](doc/Viz_5.png)
 
 ## Download Data
 
@@ -110,6 +111,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 * [README.md Template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* Tableau Viz Backgrounds
+  * [1](https://unsplash.com/photos/U2BI3GMnSSE)
+  * [2](https://unsplash.com/photos/HXOllTSwrpM)
+  * [3](https://unsplash.com/photos/yt_mxwwP3LY)
+  * [4](https://unsplash.com/photos/QBpZGqEMsKg)
+  * [5](https://unsplash.com/photos/faEfWCdOKIg)
+  * [6](https://unsplash.com/photos/rxpThOwuVgE)
+  * [7](https://unsplash.com/photos/VBLHICVh-lI)
+  * [8](https://unsplash.com/photos/wD1LRb9OeEo)
 
 [license-image]: https://img.shields.io/badge/License-MIT-brightgreen.svg
 [license-url]: https://opensource.org/licenses/MIT
