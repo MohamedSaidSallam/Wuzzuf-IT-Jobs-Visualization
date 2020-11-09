@@ -9,7 +9,7 @@ Data Collection and visualization for jobs offered under the IT section on [Wuzz
 
 ## Visualization
 
-You can view the whole visualization on [Tableau public](https://public.tableau.com/views/WuzzufITOffersVisualization/MainDashboard?:language=en&:display_count=y&:origin=viz_share_link)
+You can view the whole visualization on [Tableau public](https://public.tableau.com/profile/digitalphoenixx#!/vizhome/WuzzufITOffersVisualization/WuzzufITJobsVisualization)
 
 If there's a mistake in the filtering in the Visualization or any other feedback please contact me.
 
